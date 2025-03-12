@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Calculator.View.ProgrammerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Number system selection -->
+            <RowDefinition Height="Auto"/>
+            <!-- Bit display -->
+            <RowDefinition Height="*"/>
+            <!-- Bit operations -->
+            <RowDefinition Height="*"/>
+            <!-- Function buttons -->
+            <RowDefinition Height="*"/>
+            <!-- 7-9 -->
+            <RowDefinition Height="*"/>
+            <!-- 4-6 -->
+            <RowDefinition Height="*"/>
+            <!-- 1-3 -->
+            <RowDefinition Height="*"/>
+            <!-- 0 -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Number system selection -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
+            <RadioButton Content="HEX" Margin="5" Foreground="White" GroupName="NumberSystem"/>
+            <RadioButton Content="DEC" Margin="5" Foreground="White" GroupName="NumberSystem" IsChecked="True"/>
+            <RadioButton Content="OCT" Margin="5" Foreground="White" GroupName="NumberSystem"/>
+            <RadioButton Content="BIN" Margin="5" Foreground="White" GroupName="NumberSystem"/>
+        </StackPanel>
+
+        <!-- Bit display (optional) - shows binary representation -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" 
+                  Text="0000 0000 0000 0000" 
+                  Foreground="#AAAAAA" 
+                  Margin="5" 
+                  TextAlignment="Right"/>
+
+        <!-- Bit operations row -->
+        <Button Content="AND" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="OR" Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="XOR" Grid.Row="2" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="NOT" Grid.Row="2" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+
+        <!-- Function buttons -->
+        <Button Content="C" Grid.Row="3" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="⌫" Grid.Row="3" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="MOD" Grid.Row="3" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="÷" Grid.Row="3" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+
+        <!-- Number buttons and operations -->
+        <!-- Hex-specific buttons (A-F) would be visible when HEX is selected -->
+        <Button Content="7" Grid.Row="4" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="8" Grid.Row="4" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="9" Grid.Row="4" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="×" Grid.Row="4" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+
+        <Button Content="4" Grid.Row="5" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="5" Grid.Row="5" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="6" Grid.Row="5" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="-" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+
+        <Button Content="1" Grid.Row="6" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="2" Grid.Row="6" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="3" Grid.Row="6" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="+" Grid.Row="6" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+
+        <Button Content="&lt;&lt;" Grid.Row="7" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="0" Grid.Row="7" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}"/>
+        <Button Content="&gt;&gt;" Grid.Row="7" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+        <Button Content="=" Grid.Row="7" Grid.Column="3" Margin="2" Style="{StaticResource EqualsButtonDark}"/>
+    </Grid>
+</UserControl>
