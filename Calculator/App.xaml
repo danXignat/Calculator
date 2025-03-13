@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <!-- Dark theme button styles -->
         <Style x:Key="BaseButtonDark" TargetType="Button">
-            <Setter Property="Height" Value="40"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Template">
@@ -47,13 +45,13 @@
         </Style>
 
         <Style x:Key="EqualsButtonDark" TargetType="Button" BasedOn="{StaticResource BaseButtonDark}">
-            <Setter Property="Background" Value="#0078D7"/>
+            <Setter Property="Background" Value="#14CA9C"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1A89E8"/>
+                    <Setter Property="Background" Value="#10B38C"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#2A99F8"/>
+                    <Setter Property="Background" Value="#0C9A78"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
