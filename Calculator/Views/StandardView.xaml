@@ -43,23 +43,23 @@
 
         <!-- Clear row -->
         <Button Content="%" Grid.Row="1" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding OperationCommand}" CommandParameter="%"/>
+                Command="{Binding OperatorCommand}" CommandParameter="%"/>
         <Button Content="CE" Grid.Row="1" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" 
                 Command="{Binding ClearEntryCommand}"/>
         <Button Content="C" Grid.Row="1" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding ClearCommand}"/>
+                Command="{Binding ResetCommand}"/>
         <Button Content="⌫" Grid.Row="1" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding BackspaceCommand}"/>
+                Command="{Binding BackSpaceCommand}"/>
 
         <!-- Function row -->
         <Button Content="¹/ₓ" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding SpecialOperationCommand}" CommandParameter="¹/ₓ"/>
+                Command="{Binding SpecialOperatorCommand}" CommandParameter="¹/ₓ"/>
         <Button Content="x²" Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding SpecialOperationCommand}" CommandParameter="x²"/>
+                Command="{Binding SpecialOperatorCommand}" CommandParameter="x²"/>
         <Button Content="²√x" Grid.Row="2" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding SpecialOperationCommand}" CommandParameter="²√x"/>
+                Command="{Binding SpecialOperatorCommand}" CommandParameter="²√x"/>
         <Button Content="÷" Grid.Row="2" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18" 
-                Command="{Binding OperationCommand}" CommandParameter="÷"/>
+                Command="{Binding OperatorCommand}" CommandParameter="÷"/>
 
         <!-- Number row 7-9 -->
         <Button Content="7" Grid.Row="3" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" 
@@ -69,7 +69,7 @@
         <Button Content="9" Grid.Row="3" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" 
                 Command="{Binding NumberCommand}" CommandParameter="9"/>
         <Button Content="×" Grid.Row="3" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18" 
-                Command="{Binding OperationCommand}" CommandParameter="×"/>
+                Command="{Binding OperatorCommand}" CommandParameter="×"/>
 
         <!-- Number row 4-6 -->
         <Button Content="4" Grid.Row="4" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" 
@@ -79,7 +79,7 @@
         <Button Content="6" Grid.Row="4" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" 
                 Command="{Binding NumberCommand}" CommandParameter="6"/>
         <Button Content="-" Grid.Row="4" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18" 
-                Command="{Binding OperationCommand}" CommandParameter="-"/>
+                Command="{Binding OperatorCommand}" CommandParameter="-"/>
 
         <!-- Number row 1-3 -->
         <Button Content="1" Grid.Row="5" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" 
@@ -89,7 +89,7 @@
         <Button Content="3" Grid.Row="5" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" 
                 Command="{Binding NumberCommand}" CommandParameter="3"/>
         <Button Content="+" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18" 
-                Command="{Binding OperationCommand}" CommandParameter="+"/>
+                Command="{Binding OperatorCommand}" CommandParameter="+"/>
 
         <!-- Number row 0 -->
         <Button Content="±" Grid.Row="6" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" 

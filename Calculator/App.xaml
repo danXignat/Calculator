@@ -18,8 +18,14 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Background" Value="#222222"/>
+                    <Setter Property="Foreground" Value="#888888"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
-
         <Style x:Key="NumberButtonDark" TargetType="Button" BasedOn="{StaticResource BaseButtonDark}">
             <Setter Property="Background" Value="#333333"/>
             <Style.Triggers>
@@ -29,9 +35,13 @@
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#555555"/>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Background" Value="#222222"/>
+                    <Setter Property="Foreground" Value="#888888"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
-
         <Style x:Key="OperationButtonDark" TargetType="Button" BasedOn="{StaticResource BaseButtonDark}">
             <Setter Property="Background" Value="#292929"/>
             <Style.Triggers>
@@ -41,9 +51,13 @@
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#484848"/>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Background" Value="#1A1A1A"/>
+                    <Setter Property="Foreground" Value="#888888"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
-
         <Style x:Key="EqualsButtonDark" TargetType="Button" BasedOn="{StaticResource BaseButtonDark}">
             <Setter Property="Background" Value="#14CA9C"/>
             <Style.Triggers>
@@ -53,9 +67,13 @@
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#0C9A78"/>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Background" Value="#0A7A5E"/>
+                    <Setter Property="Foreground" Value="#AAAAAA"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
-
         <Style x:Key="MemoryButtonDark" TargetType="Button" BasedOn="{StaticResource BaseButtonDark}">
             <Setter Property="Background" Value="#202020"/>
             <Style.Triggers>
@@ -64,6 +82,11 @@
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#484848"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Background" Value="#151515"/>
+                    <Setter Property="Foreground" Value="#888888"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

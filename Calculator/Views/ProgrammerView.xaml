@@ -4,76 +4,247 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Number system selection -->
+            <!-- Number system selection tabs -->
             <RowDefinition Height="Auto"/>
-            <!-- Bit display -->
+            <!-- Display area -->
             <RowDefinition Height="*"/>
-            <!-- Bit operations -->
-            <RowDefinition Height="*"/>
-            <!-- Function buttons -->
-            <RowDefinition Height="*"/>
-            <!-- 7-9 -->
-            <RowDefinition Height="*"/>
-            <!-- 4-6 -->
-            <RowDefinition Height="*"/>
-            <!-- 1-3 -->
-            <RowDefinition Height="*"/>
-            <!-- 0 -->
+            <!-- Calculator buttons area -->
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <!-- Number system selection -->
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
-            <RadioButton Content="HEX" Margin="5" Foreground="White" GroupName="NumberSystem"/>
-            <RadioButton Content="DEC" Margin="5" Foreground="White" GroupName="NumberSystem" IsChecked="True"/>
-            <RadioButton Content="OCT" Margin="5" Foreground="White" GroupName="NumberSystem"/>
-            <RadioButton Content="BIN" Margin="5" Foreground="White" GroupName="NumberSystem"/>
+        <!-- Vertical number system tabs - now above the calculator -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0,0,0,10">
+            <!-- HEX Tab -->
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" x:Name="HexTab" BorderThickness="0,0,0,2" 
+                BorderBrush="Transparent" Margin="0,0,0,0" Background="Transparent">
+                    <Button Content="HEX" 
+                    FontSize="14"
+                    Foreground="#B0B0B0" 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    Height="30"
+                    Width="40"
+                    Cursor="Hand"
+                    x:Name="HexButton"
+                    Click="HexButton_Click"
+                    Command="{Binding NumberSystemCommand}" CommandParameter="Hex">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Border>
+
+                <TextBox Grid.Column="1"
+                 Text="0"
+                 x:Name="HexTextBox"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 Margin="10,0,0,0"
+                 Background="Transparent"
+                 Foreground="White"
+                 BorderBrush="Transparent"
+                 IsReadOnly="True"/>
+            </Grid>
+
+            <!-- DEC Tab -->
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" x:Name="DecTab" BorderThickness="0,0,0,2" 
+                BorderBrush="#14CA9C" Margin="0,0,0,0" Background="Transparent">
+                    <Button Content="DEC" 
+                    FontSize="14"
+                    Foreground="White" 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    Height="30"
+                    Width="40"
+                    Cursor="Hand"
+                    x:Name="DecButton"
+                    Click="DecButton_Click"
+                    Command="{Binding NumberSystemCommand}" CommandParameter="Dec">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Border>
+
+                <TextBox Grid.Column="1"
+                 x:Name="DecTextBox"
+                 Text="0"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 Margin="10,0,0,0"
+                 Background="Transparent"
+                 Foreground="White"
+                 BorderBrush="Transparent"
+                 IsReadOnly="True"/>
+            </Grid>
+
+            <!-- OCT Tab -->
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" x:Name="OctTab" BorderThickness="0,0,0,2" 
+                BorderBrush="Transparent" Margin="0,0,0,0" Background="Transparent">
+                    <Button Content="OCT" 
+                    FontSize="14"
+                    Foreground="#B0B0B0" 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    Height="30"
+                    Width="40"
+                    Cursor="Hand"
+                    x:Name="OctButton"
+                    Click="OctButton_Click"
+                    Command="{Binding NumberSystemCommand}" CommandParameter="Oct">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Border>
+
+                <TextBox Grid.Column="1"
+                 x:Name="OctTextBox"
+                 Text="0"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 Margin="10,0,0,0"
+                 Background="Transparent"
+                 Foreground="White"
+                 BorderBrush="Transparent"
+                 IsReadOnly="True"/>
+            </Grid>
+
+            <!-- BIN Tab -->
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" x:Name="BinTab" BorderThickness="0,0,0,2" 
+                BorderBrush="Transparent" Margin="0,0,0,0" Background="Transparent">
+                    <Button Content="BIN" 
+                    FontSize="14"
+                    Foreground="#B0B0B0" 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    Height="30"
+                    Width="40"
+                    Cursor="Hand"
+                    x:Name="BinButton"
+                    Click="BinButton_Click"
+                    Command="{Binding NumberSystemCommand}" CommandParameter="Bin">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Border>
+
+                <TextBox Grid.Column="1"
+                 x:Name="BinTextBox"
+                 Text="0"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 Margin="10,0,0,0"
+                 Background="Transparent"
+                 Foreground="White"
+                 BorderBrush="Transparent"
+                 IsReadOnly="True"/>
+            </Grid>
         </StackPanel>
 
-        <!-- Bit display (optional) - shows binary representation -->
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" 
-                  Text="0000 0000 0000 0000" 
-                  Foreground="#AAAAAA" 
-                  Margin="5" 
-                  TextAlignment="Right"/>
+        <!-- Calculator buttons (was in row 1, now in row 2) -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <!-- Bit operations -->
+                <RowDefinition Height="*"/>
+                <!-- Function buttons -->
+                <RowDefinition Height="*"/>
+                <!-- 7-9 -->
+                <RowDefinition Height="*"/>
+                <!-- 4-6 -->
+                <RowDefinition Height="*"/>
+                <!-- 1-3 -->
+                <RowDefinition Height="*"/>
+                <!-- 0 -->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Bit operations row -->
-        <Button Content="AND" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="OR" Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="XOR" Grid.Row="2" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="NOT" Grid.Row="2" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <!-- Bit operations row -->
+            <Button Content="A" Grid.Row="0" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" IsEnabled="False"/>
+            <Button Content="AND" Grid.Row="0" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="OR" Grid.Row="0" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="XOR" Grid.Row="0" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="NOT" Grid.Row="0" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}"/>
 
-        <!-- Function buttons -->
-        <Button Content="C" Grid.Row="3" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="⌫" Grid.Row="3" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="MOD" Grid.Row="3" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="÷" Grid.Row="3" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+            <!-- Function buttons -->
+            <Button Content="B" Grid.Row="1" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" IsEnabled="False"/>
+            <Button Content="C" Grid.Row="1" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding ResetCommand}"/>
+            <Button Content="⌫" Grid.Row="1" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding BackSpaceCommand}" />
+            <Button Content="MOD" Grid.Row="1" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="÷" Grid.Row="1" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="/" FontSize="18"/>
 
-        <!-- Number buttons and operations -->
-        <!-- Hex-specific buttons (A-F) would be visible when HEX is selected -->
-        <Button Content="7" Grid.Row="4" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="7"/>
-        <Button Content="8" Grid.Row="4" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="8"/>
-        <Button Content="9" Grid.Row="4" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="9"/>
-        <Button Content="×" Grid.Row="4" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+            <!-- Number buttons and operations -->
+            <!-- Hex-specific buttons (A-F) would be visible when HEX is selected -->
+            <Button Content="C" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="7" IsEnabled="False"/>
+            <Button Content="7" Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="7"/>
+            <Button Content="8" Grid.Row="2" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="8"/>
+            <Button Content="9" Grid.Row="2" Grid.Column="3" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="9"/>
+            <Button Content="×" Grid.Row="2" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="x" FontSize="18"/>
 
-        <Button Content="4" Grid.Row="5" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="4"/>
-        <Button Content="5" Grid.Row="5" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="5"/>
-        <Button Content="6" Grid.Row="5" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="6"/>
-        <Button Content="-" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+            <Button Content="D" Grid.Row="3" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="4" IsEnabled="False"/>
+            <Button Content="4" Grid.Row="3" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="4"/>
+            <Button Content="5" Grid.Row="3" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="5"/>
+            <Button Content="6" Grid.Row="3" Grid.Column="3" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="6"/>
+            <Button Content="-" Grid.Row="3" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="-" FontSize="18"/>
 
-        <Button Content="1" Grid.Row="6" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="1"/>
-        <Button Content="2" Grid.Row="6" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="2"/>
-        <Button Content="3" Grid.Row="6" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="3"/>
-        <Button Content="+" Grid.Row="6" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18"/>
+            <Button Content="E" Grid.Row="4" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="1" IsEnabled="False"/>
+            <Button Content="1" Grid.Row="4" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="1"/>
+            <Button Content="2" Grid.Row="4" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="2"/>
+            <Button Content="3" Grid.Row="4" Grid.Column="3" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="3"/>
+            <Button Content="+" Grid.Row="4" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="+" FontSize="18"/>
 
-        <Button Content="&lt;&lt;" Grid.Row="7" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="0" Grid.Row="7" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="0"/>
-        <Button Content="&gt;&gt;" Grid.Row="7" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-        <Button Content="=" Grid.Row="7" Grid.Column="3" Margin="2" Style="{StaticResource EqualsButtonDark}"/>
+            <Button Content="F" Grid.Row="5" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" IsEnabled="False"/>
+            <Button Content="&lt;&lt;" Grid.Row="5" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="0" Grid.Row="5" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="0"/>
+            <Button Content="&gt;&gt;" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="=" Grid.Row="5" Grid.Column="4" Margin="2" Style="{StaticResource EqualsButtonDark}"/>
+        </Grid>
     </Grid>
 </UserControl>

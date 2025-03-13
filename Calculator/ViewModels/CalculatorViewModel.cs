@@ -7,62 +7,89 @@ using System.Threading.Tasks;
 using Calculator.Utils;
 using System.Windows.Input;
 using System.Windows;
+using Calculator.Service;
 
 namespace Calculator.ViewModels
 {
     public class CalculatorViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand NumberCommand { get; }
+        public ICommand ModeCommand { get; }
+        public ICommand OperatorCommand { get; }
+        public ICommand BackSpaceCommand { get; }
+        public ICommand ResetCommand { get; }
 
-        // This method notifies the View that a property has changed
+        public string MainDisplayText
+        {
+            get => _mainDisplayText;
+            set
+            {
+                if (_mainDisplayText != value)
+                {
+                    _mainDisplayText = value;
+                    OnPropertyChanged(nameof(MainDisplayText));
+                }
+            }
+        }
+        public string TempDisplayText {
+            get => _tempDisplayText;
+            set {
+                if (_tempDisplayText != value) {
+                    _tempDisplayText = value;
+                    OnPropertyChanged(nameof(TempDisplayText));
+                }
+            }
+        }
+        private string _mainDisplayText = "0";
+        private string _tempDisplayText = "";
+        private WaterfalCalcService _calcService = new WaterfalCalcService();
+
+        public CalculatorViewModel()
+        {
+            _calcService = new WaterfalCalcService();
+
+            NumberCommand = new RelayCommand(ProcessDigit);
+            ModeCommand = new RelayCommand(ChangeMode);
+            OperatorCommand = new RelayCommand(ProcessOperator, item => Char.IsDigit(MainDisplayText[^1]));
+            BackSpaceCommand = new RelayCommand(ProcessBackspace, item => MainDisplayText != "0");
+            ResetCommand = new RelayCommand(ProcessClear);
+        }
+
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string _displayText = "0";
-
-        // Property for binding to TextBox
-        public string DisplayText
-        {
-            get => _displayText;
-            set
-            {
-                if (_displayText != value)
-                {
-                    _displayText = value;
-                    OnPropertyChanged(nameof(DisplayText));
-                }
-            }
-        }
-
-        // Command for handling number button clicks
-        public ICommand NumberCommand { get; }
-        public ICommand ModeCommand { get; }
-        public CalculatorViewModel()
-        {
-            NumberCommand = new RelayCommand(AppendNumber);
-            ModeCommand = new RelayCommand(ChangeMode);
-        }
-
-        // Method to handle number button clicks
-        private void AppendNumber(object parameter)
+        private void ProcessDigit(object parameter)
         {
             string digit = parameter as string;
 
-            if (DisplayText == "0")
-            {
-                DisplayText = digit; // Replace initial zero
-            }
-            else
-            {
-                DisplayText += digit; // Append digit
-            }
+            MainDisplayText = _calcService.ProcessInput(digit, MainDisplayText);
+            TempDisplayText = _calcService.TempDisplayText;
         }
+        private void ProcessOperator(object parameter) {
+            string op = parameter as string;
 
+            MainDisplayText = _calcService.ProcessInput(op, MainDisplayText);
+            TempDisplayText = _calcService.TempDisplayText;
+        }
         private void ChangeMode(object parameter)
         {
-            DisplayText = "0";
+            ProcessClear(parameter);
         }
+        private void ProcessClear(object parameter) {
+            MainDisplayText = "0";
+            TempDisplayText = "";
+            _calcService.Reset();
+        }
+        private void ProcessBackspace(object parameter) {
+            if (MainDisplayText.Length == 1) {
+                MainDisplayText = "0";
+            }
+            else {
+                MainDisplayText = MainDisplayText.Substring(0, MainDisplayText.Length - 1);
+            }
+        }   
     }
 }
