@@ -19,6 +19,7 @@ namespace Calculator.ViewModels
         public ICommand OperatorCommand { get; }
         public ICommand BackSpaceCommand { get; }
         public ICommand ResetCommand { get; }
+        public ICommand ResetMainDisplayCommand { get; }
 
         public string MainDisplayText
         {
@@ -43,26 +44,24 @@ namespace Calculator.ViewModels
         }
         private string _mainDisplayText = "0";
         private string _tempDisplayText = "";
-        private WaterfalCalcService _calcService = new WaterfalCalcService();
+        private WaterfallCalcService _calcService = new WaterfallCalcService();
 
-        public CalculatorViewModel()
-        {
-            _calcService = new WaterfalCalcService();
+        public CalculatorViewModel() {
+            _calcService = new WaterfallCalcService();
 
-            NumberCommand = new RelayCommand(ProcessDigit);
-            ModeCommand = new RelayCommand(ChangeMode);
-            OperatorCommand = new RelayCommand(ProcessOperator, item => Char.IsDigit(MainDisplayText[^1]));
+            NumberCommand    = new RelayCommand(ProcessDigit);
+            ModeCommand      = new RelayCommand(ChangeMode);
+            OperatorCommand  = new RelayCommand(ProcessOperator, item => Char.IsDigit(MainDisplayText[^1]));
             BackSpaceCommand = new RelayCommand(ProcessBackspace, item => MainDisplayText != "0");
-            ResetCommand = new RelayCommand(ProcessClear);
+            ResetCommand     = new RelayCommand(ProcessClear);
+            ResetMainDisplayCommand = new RelayCommand(obj => { MainDisplayText = "0"; });
         }
 
-        protected void OnPropertyChanged(string propertyName)
-        {
+        protected void OnPropertyChanged(string propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ProcessDigit(object parameter)
-        {
+        private void ProcessDigit(object parameter) {
             string digit = parameter as string;
 
             MainDisplayText = _calcService.ProcessInput(digit, MainDisplayText);
@@ -74,8 +73,7 @@ namespace Calculator.ViewModels
             MainDisplayText = _calcService.ProcessInput(op, MainDisplayText);
             TempDisplayText = _calcService.TempDisplayText;
         }
-        private void ChangeMode(object parameter)
-        {
+        private void ChangeMode(object parameter) {
             ProcessClear(parameter);
         }
         private void ProcessClear(object parameter) {

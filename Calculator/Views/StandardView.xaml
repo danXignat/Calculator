@@ -45,7 +45,7 @@
         <Button Content="%" Grid.Row="1" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}" 
                 Command="{Binding OperatorCommand}" CommandParameter="%"/>
         <Button Content="CE" Grid.Row="1" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding ClearEntryCommand}"/>
+                Command="{Binding ResetMainDisplayCommand}"/>
         <Button Content="C" Grid.Row="1" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" 
                 Command="{Binding ResetCommand}"/>
         <Button Content="⌫" Grid.Row="1" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" 
@@ -53,11 +53,11 @@
 
         <!-- Function row -->
         <Button Content="¹/ₓ" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding SpecialOperatorCommand}" CommandParameter="¹/ₓ"/>
+                Command="{Binding OperatorCommand}" CommandParameter="¹/ₓ"/>
         <Button Content="x²" Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding SpecialOperatorCommand}" CommandParameter="x²"/>
+                Command="{Binding OperatorCommand}" CommandParameter="x²"/>
         <Button Content="²√x" Grid.Row="2" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" 
-                Command="{Binding SpecialOperatorCommand}" CommandParameter="²√x"/>
+                Command="{Binding OperatorCommand}" CommandParameter="²√x"/>
         <Button Content="÷" Grid.Row="2" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" FontSize="18" 
                 Command="{Binding OperatorCommand}" CommandParameter="÷"/>
 

@@ -6,31 +6,21 @@ using System.Threading.Tasks;
 
 namespace Calculator.Utils {
     internal class Calculator {
-        public static double Calculate(string firstOperand, string secondOperand, string op) {
-            double first = double.Parse(firstOperand);
-            double second = double.Parse(secondOperand);
+        static public Dictionary<string, Func<double, double, double>> SuportedOp = new Dictionary<string, Func<double, double, double>> {
+            { "+",   (lhs, rhs) => lhs + rhs },
+            { "-",   (lhs, rhs) => lhs - rhs },
+            { "×",   (lhs, rhs) => lhs * rhs },
+            { "÷",   (lhs, rhs) => lhs / rhs },
+            { "¹/ₓ", (lhs, _)   => 1 / lhs },
+            { "x²",  (lhs, _)   => lhs * lhs },
+            { "²√x", (lhs, _)   => double.Sqrt(lhs) }
+        };
 
-            switch (op) {
-                case "+":
-                    return first + second;
-                    break;
+        static public string Calculate(string op, string lhs, string? rhs = null) {
+            double first = double.Parse(lhs);
+            double second = rhs != null ? double.Parse(rhs) : 0;
 
-                case "-":
-                    return first - second;
-                    break;
-
-                case "*":
-                    return first * second;
-                    break;
-
-                case "/":
-                    return first / second;
-                    break;
-
-                default:
-                    return 0;
-                    break;
-            }
+            return SuportedOp[op](first, second).ToString();
         }
     }
 }

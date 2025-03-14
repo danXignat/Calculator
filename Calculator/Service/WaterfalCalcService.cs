@@ -7,28 +7,29 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Calculator.Service {
-    internal class WaterfalCalcService {
+    internal class WaterfallCalcService {
         private string _firstOperand = "";
-        private bool _secondOperandSetting = false;
+        private string _secondOperator = "";
         private string _operator = "";
+        private bool _resetMainDisplay = false;
+        private bool _settingSecondOp = false;
         public string TempDisplayText => _firstOperand + _operator;
 
-        public WaterfalCalcService() {
+        public WaterfallCalcService() {
 
         }
 
-        public string ProcessInput(string input, string currDisplay)
-        {
+        public string ProcessInput(string input, string currDisplay) {
             switch(Classifier.Classify(input)) {
-                case TokenType.Operand:
+                case Classifier.TokenType.Operand:
                     return ProcessOperand(input, currDisplay);
                     break;
 
-                case TokenType.Operator:
+                case Classifier.TokenType.Operator:
                     return ProcessOperator(input, currDisplay);
                     break;
 
-                case TokenType.EqualSign:
+                case Classifier.TokenType.EqualSign:
                     return ProcessEqualSign(currDisplay);
                     break;
 
@@ -39,37 +40,41 @@ namespace Calculator.Service {
         }
         public void Reset() {
             _firstOperand = "";
-            _secondOperandSetting = false;
+            _secondOperator = "";
             _operator = "";
+            _resetMainDisplay = false;
+            _settingSecondOp = false;
         }
-
         private string ProcessOperand(string input, string currDisplay) {
-            if (currDisplay == "0") {
+            if (_resetMainDisplay) {
                 currDisplay = "";
+                _resetMainDisplay = false;
+                _settingSecondOp = true;
             }
 
-            if (_operator != "" && _firstOperand != "" && !_secondOperandSetting) {
-                _secondOperandSetting = true;
+            if (currDisplay == "0") {
                 currDisplay = "";
             }
 
             return currDisplay + input;
         }
         private string ProcessOperator(string input, string currDisplay) {
-            if (_firstOperand != "" && _operator != "") {
-                 currDisplay = ProcessEqualSign(currDisplay);
+            if (_settingSecondOp) {
+                _firstOperand = Utils.Calculator.Calculate(_operator, _firstOperand, currDisplay);
+                currDisplay = _firstOperand;
+                _settingSecondOp = false;
+            }
+            else {
+                _firstOperand = currDisplay;
             }
 
-            _firstOperand = currDisplay;
             _operator = input;
+            _resetMainDisplay = true;
 
             return currDisplay;
         }
         private string ProcessEqualSign(string currDisplay) {
-            _secondOperandSetting = false;
-
-            return Utils.Calculator.Calculate(_firstOperand, currDisplay, _operator).ToString();
+            return Utils.Calculator.Calculate(_operator, _firstOperand, currDisplay);
         }
-
     }
 }

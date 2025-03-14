@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Calculator.Utils {
-    public enum TokenType {
-        Operator,
-        Operand,
-        EqualSign,
-        Unknown
-    }
 
     public static class Classifier {
+        public enum TokenType {
+            Operator,
+            Operand,
+            EqualSign,
+            Unknown
+        }
+
         public static bool IsOperator(string input) {
-            return input == "+" || input == "-" || input == "*" || input == "/";
+            return Calculator.SuportedOp.ContainsKey(input);
         }
 
         public static bool IsOperand(string input) {
