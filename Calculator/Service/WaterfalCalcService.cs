@@ -1,4 +1,5 @@
-﻿using Calculator.Utils;
+﻿using Calculator.Models;
+using Calculator.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,73 +9,110 @@ using System.Threading.Tasks;
 
 namespace Calculator.Service {
     internal class WaterfallCalcService {
+        private DisplayModel _displayModel;
         private string _firstOperand = "";
-        private string _secondOperator = "";
-        private string _operator = "";
+        private string _secondOperand = "";
+        private string _op = "";
+
+        private Action action = null;
+
         private bool _resetMainDisplay = false;
-        private bool _settingSecondOp = false;
-        public string TempDisplayText => _firstOperand + _operator;
+        private bool _newTerm = false;
 
-        public WaterfallCalcService() {
-
+        public WaterfallCalcService(DisplayModel displayModel) {
+            _displayModel = displayModel;
         }
 
-        public string ProcessInput(string input, string currDisplay) {
-            switch(Classifier.Classify(input)) {
-                case Classifier.TokenType.Operand:
-                    return ProcessOperand(input, currDisplay);
-                    break;
-
-                case Classifier.TokenType.Operator:
-                    return ProcessOperator(input, currDisplay);
-                    break;
-
-                case Classifier.TokenType.EqualSign:
-                    return ProcessEqualSign(currDisplay);
-                    break;
-
-                default:
-                    return "Error";
-                    break;
-            }
-        }
-        public void Reset() {
-            _firstOperand = "";
-            _secondOperator = "";
-            _operator = "";
-            _resetMainDisplay = false;
-            _settingSecondOp = false;
-        }
-        private string ProcessOperand(string input, string currDisplay) {
-            if (_resetMainDisplay) {
-                currDisplay = "";
-                _resetMainDisplay = false;
-                _settingSecondOp = true;
+        public void ProcessDigit(string digit) {
+            if (action != null) {
+                action?.Invoke();
+                action = null;
             }
 
-            if (currDisplay == "0") {
-                currDisplay = "";
+            if (_displayModel.MainDisplayText == "0") {
+                _displayModel.MainDisplayText = "";
             }
-
-            return currDisplay + input;
+            
+            _displayModel.MainDisplayText += digit;
         }
-        private string ProcessOperator(string input, string currDisplay) {
-            if (_settingSecondOp) {
-                _firstOperand = Utils.Calculator.Calculate(_operator, _firstOperand, currDisplay);
-                currDisplay = _firstOperand;
-                _settingSecondOp = false;
+
+        public void ProcessOperator(string op) {
+            if (CalculatorEngine.SupportedOp[op].Operator == Operations.Percent) {
+                ProcessPercent(op);
+            }
+            else if (CalculatorEngine.isUnary(op)) {
+                ProcessUnary(op);
             }
             else {
-                _firstOperand = currDisplay;
+                ProcessBinary(op);
+            }
+        }
+        public void ProcessChangeSign() {
+            if (char.IsDigit(_displayModel.MainDisplayText[0])) {
+                _displayModel.MainDisplayText = "-" + _displayModel.MainDisplayText;
+            }
+            else {
+                _displayModel.MainDisplayText = _displayModel.MainDisplayText.Substring(1);
+            }
+        }
+        private void ProcessUnary(string op) {
+            string result = Utils.CalculatorEngine.Calculate(op, _displayModel.MainDisplayText);
+
+            if (_secondOperand == "") {
+                _secondOperand = Utils.CalculatorEngine.SupportedOp[op].DisplayFunction(_displayModel.MainDisplayText);
+            }
+            else {
+                _secondOperand = Utils.CalculatorEngine.SupportedOp[op].DisplayFunction(_secondOperand);
             }
 
-            _operator = input;
+            _displayModel.TempDisplayText = $"{_firstOperand} {_op} {_secondOperand}";
+            _displayModel.MainDisplayText = result;
+        }
+        private void ProcessBinary(string op) {
+            if (_firstOperand == "") {
+                _firstOperand = _displayModel.MainDisplayText;
+            }
+
+            if (_newTerm) {
+                _firstOperand = Utils.CalculatorEngine.Calculate(_op, _firstOperand, _displayModel.MainDisplayText);
+                _displayModel.MainDisplayText = _firstOperand;
+                _newTerm = false;
+            }
+
+            _op = op;
+            _displayModel.TempDisplayText = $"{_firstOperand} {op}";
             _resetMainDisplay = true;
 
-            return currDisplay;
+            action = () => {
+                _displayModel.MainDisplayText = "";
+                _newTerm = true;
+            };
         }
-        private string ProcessEqualSign(string currDisplay) {
-            return Utils.Calculator.Calculate(_operator, _firstOperand, currDisplay);
+        private void ProcessPercent(string op) {
+            string result = Utils.CalculatorEngine.Calculate(op, _firstOperand, _displayModel.MainDisplayText);
+
+            _displayModel.TempDisplayText = $"{_firstOperand} {_op} {result}";
+            _displayModel.MainDisplayText = result;
+        }
+        public void ProcessEqualSign() {
+            _secondOperand = _displayModel.MainDisplayText;
+            _displayModel.TempDisplayText = $"{_firstOperand} {_op} {_secondOperand} = ";
+            _displayModel.MainDisplayText = Utils.CalculatorEngine.Calculate(_op, _firstOperand, _secondOperand);
+
+            action = () => {
+                _displayModel.TempDisplayText = "";
+                _displayModel.MainDisplayText = "";
+                Reset();
+            };
+        }
+
+        public void Reset() {
+            _firstOperand = "";
+            _secondOperand = "";
+            _op = "";
+            _resetMainDisplay = false;
+            _newTerm = false;
+            action = null;
         }
     }
 }

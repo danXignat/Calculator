@@ -93,12 +93,12 @@
 
         <!-- Number row 0 -->
         <Button Content="±" Grid.Row="6" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" 
-                Command="{Binding NegateCommand}"/>
+                Command="{Binding ChangeSignCommand}"/>
         <Button Content="0" Grid.Row="6" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" 
                 Command="{Binding NumberCommand}" CommandParameter="0"/>
         <Button Content="." Grid.Row="6" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" 
-                Command="{Binding DecimalPointCommand}"/>
+                Command="{Binding PointCommand}"/>
         <Button Content="=" Grid.Row="6" Grid.Column="3" Margin="2" Style="{StaticResource EqualsButtonDark}" 
-                Command="{Binding EqualsCommand}"/>
+                Command="{Binding EqualSignCommand}"/>
     </Grid>
 </UserControl>

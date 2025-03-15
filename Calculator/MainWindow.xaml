@@ -19,16 +19,17 @@
         <KeyBinding Key="D8" Command="{Binding NumberCommand}" CommandParameter="8"/>
         <KeyBinding Key="D9" Command="{Binding NumberCommand}" CommandParameter="9"/>
 
-        <KeyBinding Key="OemQuestion" Command="{Binding OperatorCommand}" CommandParameter="/"/>
-        <KeyBinding Key="D8" Modifiers="Shift" Command="{Binding OperatorCommand}" CommandParameter="*"/>
+        <KeyBinding Key="OemQuestion" Command="{Binding OperatorCommand}" CommandParameter="÷"/>
+        <KeyBinding Key="D8" Modifiers="Shift" Command="{Binding OperatorCommand}" CommandParameter="×"/>
         <KeyBinding Key="OemPlus" Command="{Binding OperatorCommand}" CommandParameter="+"/>
         <KeyBinding Key="OemMinus" Command="{Binding OperatorCommand}" CommandParameter="-"/>
 
-        <KeyBinding Key="Divide" Command="{Binding OperatorCommand}" CommandParameter="/"/>
-        <KeyBinding Key="Multiply" Command="{Binding OperatorCommand}" CommandParameter="*"/>
+        <KeyBinding Key="Divide" Command="{Binding OperatorCommand}" CommandParameter="÷"/>
+        <KeyBinding Key="Multiply" Command="{Binding OperatorCommand}" CommandParameter="×"/>
         <KeyBinding Key="Add" Command="{Binding OperatorCommand}" CommandParameter="+"/>
         <KeyBinding Key="Subtract" Command="{Binding OperatorCommand}" CommandParameter="-"/>
 
+        <KeyBinding Key="Enter" Command="{Binding EqualSignCommand}"/>
         <KeyBinding Key="Escape" Command="{Binding ResetCommand}"/>
         <KeyBinding Key="Back" Command="{Binding BackSpaceCommand}"/>
     </Window.InputBindings>

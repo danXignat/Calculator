@@ -244,7 +244,7 @@
             <Button Content="&lt;&lt;" Grid.Row="5" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
             <Button Content="0" Grid.Row="5" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="0"/>
             <Button Content="&gt;&gt;" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-            <Button Content="=" Grid.Row="5" Grid.Column="4" Margin="2" Style="{StaticResource EqualsButtonDark}"/>
+            <Button Content="=" Grid.Row="5" Grid.Column="4" Margin="2" Style="{StaticResource EqualsButtonDark}" Command="{Binding EqualSignCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -8,6 +8,7 @@ using Calculator.Utils;
 using System.Windows.Input;
 using System.Windows;
 using Calculator.Service;
+using Calculator.Models;
 
 namespace Calculator.ViewModels
 {
@@ -15,46 +16,44 @@ namespace Calculator.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand NumberCommand { get; }
-        public ICommand ModeCommand { get; }
         public ICommand OperatorCommand { get; }
+        public ICommand EqualSignCommand { get; }
+        public ICommand ChangeSignCommand { get; }
+        public ICommand PointCommand { get; }
         public ICommand BackSpaceCommand { get; }
         public ICommand ResetCommand { get; }
         public ICommand ResetMainDisplayCommand { get; }
+        public ICommand ModeCommand { get; }
 
-        public string MainDisplayText
-        {
-            get => _mainDisplayText;
-            set
-            {
-                if (_mainDisplayText != value)
-                {
-                    _mainDisplayText = value;
-                    OnPropertyChanged(nameof(MainDisplayText));
-                }
-            }
+        private DisplayModel _displayModel; 
+        private WaterfallCalcService _calcService;
+
+        public string MainDisplayText {
+            get => _displayModel.MainDisplayText;
+            set => _displayModel.MainDisplayText = value;
         }
         public string TempDisplayText {
-            get => _tempDisplayText;
-            set {
-                if (_tempDisplayText != value) {
-                    _tempDisplayText = value;
-                    OnPropertyChanged(nameof(TempDisplayText));
-                }
-            }
+            get => _displayModel.TempDisplayText;
+            set => _displayModel.TempDisplayText = value;
         }
-        private string _mainDisplayText = "0";
-        private string _tempDisplayText = "";
-        private WaterfallCalcService _calcService = new WaterfallCalcService();
 
         public CalculatorViewModel() {
-            _calcService = new WaterfallCalcService();
+            _displayModel = new DisplayModel();
+            _displayModel.PropertyChanged += (sender, args) => {
+                OnPropertyChanged(args.PropertyName);
+            };
 
-            NumberCommand    = new RelayCommand(ProcessDigit);
-            ModeCommand      = new RelayCommand(ChangeMode);
-            OperatorCommand  = new RelayCommand(ProcessOperator, item => Char.IsDigit(MainDisplayText[^1]));
-            BackSpaceCommand = new RelayCommand(ProcessBackspace, item => MainDisplayText != "0");
-            ResetCommand     = new RelayCommand(ProcessClear);
+            _calcService = new WaterfallCalcService(_displayModel);
+
+            NumberCommand           = new RelayCommand(ProcessDigit);
+            OperatorCommand         = new RelayCommand(ProcessOperator, item => Char.IsDigit(MainDisplayText[^1]));
+            EqualSignCommand        = new RelayCommand(ProcessEqualSign);
+            ChangeSignCommand       = new RelayCommand(ProcessChangeSign, item => MainDisplayText != "0");
+            PointCommand            = new RelayCommand(ProcessPoint, item => !MainDisplayText.Contains(".") && MainDisplayText != "0");
+            BackSpaceCommand        = new RelayCommand(ProcessBackspace, item => MainDisplayText != "0");
+            ResetCommand            = new RelayCommand(ProcessClear);
             ResetMainDisplayCommand = new RelayCommand(obj => { MainDisplayText = "0"; });
+            ModeCommand             = new RelayCommand(ChangeMode);
         }
 
         protected void OnPropertyChanged(string propertyName) {
@@ -64,30 +63,36 @@ namespace Calculator.ViewModels
         private void ProcessDigit(object parameter) {
             string digit = parameter as string;
 
-            MainDisplayText = _calcService.ProcessInput(digit, MainDisplayText);
-            TempDisplayText = _calcService.TempDisplayText;
+            _calcService.ProcessDigit(digit);
         }
         private void ProcessOperator(object parameter) {
             string op = parameter as string;
 
-            MainDisplayText = _calcService.ProcessInput(op, MainDisplayText);
-            TempDisplayText = _calcService.TempDisplayText;
+            _calcService.ProcessOperator(op);
+        }
+        private void ProcessChangeSign(object parameter) {
+            _calcService.ProcessChangeSign();
+        }
+        private void ProcessPoint(object parameter) {
+            _displayModel.MainDisplayText += ".";
         }
         private void ChangeMode(object parameter) {
             ProcessClear(parameter);
         }
         private void ProcessClear(object parameter) {
-            MainDisplayText = "0";
-            TempDisplayText = "";
+            _displayModel.Reset();
             _calcService.Reset();
         }
         private void ProcessBackspace(object parameter) {
-            if (MainDisplayText.Length == 1) {
+            if (MainDisplayText.Length == 1 || MainDisplayText.Length == 2 && MainDisplayText[0] == '-') {
                 MainDisplayText = "0";
             }
             else {
                 MainDisplayText = MainDisplayText.Substring(0, MainDisplayText.Length - 1);
             }
-        }   
+        }
+        private void ProcessEqualSign(object parameter) {
+            _calcService.ProcessEqualSign();
+        }
     }
 }
