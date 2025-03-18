@@ -19,7 +19,7 @@ namespace Calculator
             programmerView = new ProgrammerView();
 
             CalculatorViewHost.Content = standardView;
-            DataContext = new CalculatorViewModel();
+            DataContext = new MainViewModel();
         }
 
         private void StandardButton_Click(object sender, RoutedEventArgs e)

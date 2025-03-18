@@ -6,11 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Calculator.Models {
-    internal class DisplayModel : INotifyPropertyChanged {
+    public class DisplayModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _mainDisplayText = "0";
         private string _tempDisplayText = "";
+
+        private string _hexDisplay = "0";
+        private string _decDisplay = "0";
+        private string _octDisplay = "0";
+        private string _binDisplay = "0";
 
         public string MainDisplayText {
             get => _mainDisplayText;
@@ -21,7 +26,6 @@ namespace Calculator.Models {
                 }
             }
         }
-
         public string TempDisplayText {
             get => _tempDisplayText;
             set {
@@ -31,7 +35,45 @@ namespace Calculator.Models {
                 }
             }
         }
+        public string HexDisplay {
+            get => _hexDisplay;
+            set {
+                if (_hexDisplay != value) {
+                    _hexDisplay = value;
+                    OnPropertyChanged(nameof(HexDisplay));
+                }
+            }
+        }
 
+        public string DecDisplay {
+            get => _decDisplay;
+            set {
+                if (_decDisplay != value) {
+                    _decDisplay = value;
+                    OnPropertyChanged(nameof(DecDisplay));
+                }
+            }
+        }
+
+        public string OctDisplay {
+            get => _octDisplay;
+            set {
+                if (_octDisplay != value) {
+                    _octDisplay = value;
+                    OnPropertyChanged(nameof(OctDisplay));
+                }
+            }
+        }
+
+        public string BinDisplay {
+            get => _binDisplay;
+            set {
+                if (_binDisplay != value) {
+                    _binDisplay = value;
+                    OnPropertyChanged(nameof(BinDisplay));
+                }
+            }
+        }
         protected void OnPropertyChanged(string propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -39,6 +81,11 @@ namespace Calculator.Models {
         public void Reset() {
             MainDisplayText = "0";
             TempDisplayText = "";
+
+            HexDisplay = "0";
+            DecDisplay = "0";
+            OctDisplay = "0";
+            BinDisplay = "0";
         }
     }
 }
