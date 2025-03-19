@@ -17,7 +17,8 @@ namespace Calculator.ViewModels
 
         private bool _isMemoryDropdownOpen;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        // Make PropertyChanged nullable to match INotifyPropertyChanged interface
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         //------------------------------------------------------------------------------Basic Calculator
         public ICommand NumberCommand { get; }
@@ -60,7 +61,7 @@ namespace Calculator.ViewModels
 
         public StandardViewModel(DisplayModel otherDisplayModel)
         {
-            displayModel = otherDisplayModel;
+            displayModel = otherDisplayModel ?? throw new ArgumentNullException(nameof(otherDisplayModel));
             _calcService = new WaterfallCalcService(displayModel);
             _memoryService = new MemoryCalcService(displayModel);
             _isMemoryDropdownOpen = false;
@@ -80,8 +81,8 @@ namespace Calculator.ViewModels
             MemorySubtractCommand = new RelayCommand(obj => _memoryService.MemorySubtract());
             MemoryStoreCommand = new RelayCommand(obj => _memoryService.MemoryStore());
             MemoryDropdownCommand = new RelayCommand(obj => IsMemoryDropdownOpen = !IsMemoryDropdownOpen);
-            MemoryItemAddCommand = new RelayCommand(obj => _memoryService.MemoryItemAdd(obj as MemoryItem));
-            MemoryItemSubtractCommand = new RelayCommand(obj => _memoryService.MemoryItemSubtract(obj as MemoryItem));
+            MemoryItemAddCommand = new RelayCommand(obj => _memoryService.MemoryItemAdd(obj as MemoryItem ?? throw new ArgumentNullException(nameof(obj))));
+            MemoryItemSubtractCommand = new RelayCommand(obj => _memoryService.MemoryItemSubtract(obj as MemoryItem ?? throw new ArgumentNullException(nameof(obj))));
             MemoryItemRemoveCommand = new RelayCommand(ProcessMemoryItemRemove);
             MemoryItemRecallCommand = new RelayCommand(ProcessMemoryItemRecall);
         }
@@ -96,24 +97,24 @@ namespace Calculator.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ProcessDigit(object parameter)
+        private void ProcessDigit(object? parameter)
         {
-            string digit = parameter as string;
+            string digit = parameter as string ?? throw new ArgumentNullException(nameof(parameter));
             _calcService.ProcessDigit(digit);
         }
 
-        private void ProcessOperator(object parameter)
+        private void ProcessOperator(object? parameter)
         {
-            string op = parameter as string;
+            string op = parameter as string ?? throw new ArgumentNullException(nameof(parameter));
             _calcService.ProcessOperator(op);
         }
 
-        private void ProcessChangeSign(object parameter)
+        private void ProcessChangeSign(object? parameter)
         {
             _calcService.ProcessChangeSign();
         }
 
-        private void ProcessPoint(object parameter)
+        private void ProcessPoint(object? parameter)
         {
             if (!displayModel.MainDisplayText.Contains("."))
             {
@@ -121,13 +122,13 @@ namespace Calculator.ViewModels
             }
         }
 
-        private void ProcessClear(object parameter)
+        private void ProcessClear(object? parameter)
         {
             displayModel.Reset();
             _calcService.Reset();
         }
 
-        private void ProcessBackspace(object parameter)
+        private void ProcessBackspace(object? parameter)
         {
             if (displayModel.MainDisplayText.Length == 1 || (displayModel.MainDisplayText.Length == 2 && displayModel.MainDisplayText[0] == '-'))
             {
@@ -139,19 +140,19 @@ namespace Calculator.ViewModels
             }
         }
 
-        private void ProcessEqualSign(object parameter)
+        private void ProcessEqualSign(object? parameter)
         {
             _calcService.ProcessEqualSign();
         }
 
-        private void ProcessMemoryItemRemove(object parameter)
+        private void ProcessMemoryItemRemove(object? parameter)
         {
-            _memoryService.MemoryItemRemove(parameter as MemoryItem);
+            _memoryService.MemoryItemRemove(parameter as MemoryItem ?? throw new ArgumentNullException(nameof(parameter)));
         }
 
-        private void ProcessMemoryItemRecall(object parameter)
+        private void ProcessMemoryItemRecall(object? parameter)
         {
-            _memoryService.MemoryItemRecall(parameter as MemoryItem);
+            _memoryService.MemoryItemRecall(parameter as MemoryItem ?? throw new ArgumentNullException(nameof(parameter)));
             IsMemoryDropdownOpen = false;
         }
     }

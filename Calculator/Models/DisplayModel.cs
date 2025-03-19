@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Calculator.Models {
     public class DisplayModel : INotifyPropertyChanged {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private string _mainDisplayText = "0";
         private string _tempDisplayText = "";

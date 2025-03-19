@@ -9,7 +9,8 @@ namespace Calculator.Models
         private ObservableCollection<MemoryItem> _items;
         private bool _hasMemoryValue;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        // Changed to nullable PropertyChangedEventHandler to match interface
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<MemoryItem> Items
         {
@@ -89,7 +90,8 @@ namespace Calculator.Models
     {
         private double _value;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        // Changed to nullable PropertyChangedEventHandler to match interface
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public double Value
         {
