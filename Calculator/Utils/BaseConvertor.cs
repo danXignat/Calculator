@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 
 namespace Calculator.Utils {
     public class BaseConverter {
+        public static readonly HashSet<string> BinaryDigits = new HashSet<string> {
+            "0", "1"
+        };
+
+        public static readonly HashSet<string> OctalDigits = new HashSet<string> {
+            "0", "1", "2", "3", "4", "5", "6", "7"
+        };
+
+        public static readonly HashSet<string> DecimalDigits = new HashSet<string> {
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+        };
+
+        public static readonly HashSet<string> HexadecimalDigits = new HashSet<string> {
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "A", "B", "C", "D", "E", "F"
+        };
+
         public static bool IsValidBase(int baseValue) {
             return baseValue == 2 || baseValue == 8 || baseValue == 10 || baseValue == 16;
         }

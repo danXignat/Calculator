@@ -32,6 +32,10 @@
         <KeyBinding Key="Enter" Command="{Binding EqualSignCommand}"/>
         <KeyBinding Key="Escape" Command="{Binding ResetCommand}"/>
         <KeyBinding Key="Back" Command="{Binding BackSpaceCommand}"/>
+
+        <KeyBinding Key="X" Modifiers="Control" Command="{Binding CutCommand}"/>
+        <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}"/>
+        <KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteCommand}"/>
     </Window.InputBindings>
 
     <Grid>
@@ -44,14 +48,17 @@
 
         <Menu Grid.Row="0" Background="#303030" Foreground="White">
             <MenuItem Header="File" Foreground="White">
-                <MenuItem Header="Cut" Foreground="Black" InputGestureText="Ctrl+X" />
-                <MenuItem Header="Copy" Foreground="Black" InputGestureText="Ctrl+C" />
-                <MenuItem Header="Paste" Foreground="Black" InputGestureText="Ctrl+V"/>
+                <MenuItem Header="Cut" Foreground="Black" InputGestureText="Ctrl+X" Command="{Binding CutCommand}" />
+                <MenuItem Header="Copy" Foreground="Black" InputGestureText="Ctrl+C" Command="{Binding CopyCommand}" />
+                <MenuItem Header="Paste" Foreground="Black" InputGestureText="Ctrl+V" Command="{Binding PasteCommand}" />
                 <Separator />
-                <MenuItem Header="Digit Grouping" Foreground="Black" IsCheckable="True" />
+                <MenuItem Header="Digit Grouping" 
+                    Foreground="Black" 
+                    IsCheckable="True" 
+                    Command="{Binding ToggleDigitGroupingCommand}" />
             </MenuItem>
             <MenuItem Header="Help" Foreground="White">
-                <MenuItem Header="About" Foreground="Black"/>
+                <MenuItem Header="About" Foreground="Black" Click="AboutMenuItem_Click"/>
             </MenuItem>
         </Menu>
 

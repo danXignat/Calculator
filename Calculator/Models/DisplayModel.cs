@@ -35,42 +35,44 @@ namespace Calculator.Models {
                 }
             }
         }
-        public string HexDisplay {
+        public string HexDisplayText {
             get => _hexDisplay;
             set {
                 if (_hexDisplay != value) {
                     _hexDisplay = value;
-                    OnPropertyChanged(nameof(HexDisplay));
+                    OnPropertyChanged(nameof(HexDisplayText));
                 }
             }
         }
 
-        public string DecDisplay {
+        public string DecDisplayText {
             get => _decDisplay;
             set {
                 if (_decDisplay != value) {
                     _decDisplay = value;
-                    OnPropertyChanged(nameof(DecDisplay));
+                    OnPropertyChanged(nameof(DecDisplayText));
                 }
             }
         }
 
-        public string OctDisplay {
+        public string OctDisplayText
+        {
             get => _octDisplay;
             set {
                 if (_octDisplay != value) {
                     _octDisplay = value;
-                    OnPropertyChanged(nameof(OctDisplay));
+                    OnPropertyChanged(nameof(OctDisplayText));
                 }
             }
         }
 
-        public string BinDisplay {
+        public string BinDisplayText
+        {
             get => _binDisplay;
             set {
                 if (_binDisplay != value) {
                     _binDisplay = value;
-                    OnPropertyChanged(nameof(BinDisplay));
+                    OnPropertyChanged(nameof(BinDisplayText));
                 }
             }
         }
@@ -82,10 +84,10 @@ namespace Calculator.Models {
             MainDisplayText = "0";
             TempDisplayText = "";
 
-            HexDisplay = "0";
-            DecDisplay = "0";
-            OctDisplay = "0";
-            BinDisplay = "0";
+            HexDisplayText = "0";
+            DecDisplayText = "0";
+            OctDisplayText = "0";
+            BinDisplayText = "0";
         }
     }
 }

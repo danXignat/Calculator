@@ -207,43 +207,43 @@
             </Grid.ColumnDefinitions>
 
             <!-- Bit operations row -->
-            <Button Content="A" Grid.Row="0" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="10"/>
-            <Button Content="AND" Grid.Row="0" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-            <Button Content="OR" Grid.Row="0" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-            <Button Content="XOR" Grid.Row="0" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-            <Button Content="NOT" Grid.Row="0" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="A" Grid.Row="0" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="A"/>
+            <Button Content="AND" Grid.Row="0" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"  Command="{Binding OperatorCommand}" CommandParameter="AND" />
+            <Button Content="OR" Grid.Row="0" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="OR"/>
+            <Button Content="XOR" Grid.Row="0" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="XOR"/>
+            <Button Content="NOT" Grid.Row="0" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="NOT"/>
 
             <!-- Function buttons -->
-            <Button Content="B" Grid.Row="1" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="11"/>
+            <Button Content="B" Grid.Row="1" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="B"/>
             <Button Content="C" Grid.Row="1" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding ResetCommand}"/>
             <Button Content="⌫" Grid.Row="1" Grid.Column="2" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding BackSpaceCommand}" />
             <Button Content="MOD" Grid.Row="1" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
-            <Button Content="÷" Grid.Row="1" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="/" FontSize="18"/>
+            <Button Content="÷" Grid.Row="1" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="÷" FontSize="18"/>
 
             <!-- Number buttons and operations -->
             <!-- Hex-specific buttons (A-F) would be visible when HEX is selected -->
-            <Button Content="C" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="12"/>
+            <Button Content="C" Grid.Row="2" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="C"/>
             <Button Content="7" Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="7"/>
             <Button Content="8" Grid.Row="2" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="8"/>
             <Button Content="9" Grid.Row="2" Grid.Column="3" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="9"/>
-            <Button Content="×" Grid.Row="2" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="x" FontSize="18"/>
+            <Button Content="×" Grid.Row="2" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="×" FontSize="18"/>
 
-            <Button Content="D" Grid.Row="3" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="13"/>
+            <Button Content="D" Grid.Row="3" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="D"/>
             <Button Content="4" Grid.Row="3" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="4"/>
             <Button Content="5" Grid.Row="3" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="5"/>
             <Button Content="6" Grid.Row="3" Grid.Column="3" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="6"/>
             <Button Content="-" Grid.Row="3" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="-" FontSize="18"/>
 
-            <Button Content="E" Grid.Row="4" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="14"/>
+            <Button Content="E" Grid.Row="4" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="E"/>
             <Button Content="1" Grid.Row="4" Grid.Column="1" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="1"/>
             <Button Content="2" Grid.Row="4" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="2"/>
             <Button Content="3" Grid.Row="4" Grid.Column="3" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="3"/>
             <Button Content="+" Grid.Row="4" Grid.Column="4" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="+" FontSize="18"/>
 
-            <Button Content="F" Grid.Row="5" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="15"/>
-            <Button Content="&lt;&lt;" Grid.Row="5" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="F" Grid.Row="5" Grid.Column="0" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="F"/>
+            <Button Content="&lt;&lt;" Grid.Row="5" Grid.Column="1" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="LSHIFT"/>
             <Button Content="0" Grid.Row="5" Grid.Column="2" Margin="2" Style="{StaticResource NumberButtonDark}" Command="{Binding NumberCommand}" CommandParameter="0"/>
-            <Button Content="&gt;&gt;" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}"/>
+            <Button Content="&gt;&gt;" Grid.Row="5" Grid.Column="3" Margin="2" Style="{StaticResource OperationButtonDark}" Command="{Binding OperatorCommand}" CommandParameter="RSHIFT"/>
             <Button Content="=" Grid.Row="5" Grid.Column="4" Margin="2" Style="{StaticResource EqualsButtonDark}" Command="{Binding EqualSignCommand}"/>
         </Grid>
     </Grid>

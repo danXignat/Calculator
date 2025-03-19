@@ -41,5 +41,12 @@ namespace Calculator
 
             CalculatorViewHost.Content = programmerView;
         }
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.Owner = this; // Set the owner to center the about window relative to main window
+            aboutWindow.ShowDialog(); // Show as dialog to block interaction with main window
+        }
+
     }
 }

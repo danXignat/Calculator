@@ -41,7 +41,7 @@ namespace Calculator.ViewModels
             _calcService = new WaterfallCalcService(displayModel);
 
             NumberCommand           = new RelayCommand(ProcessDigit, CanExecuteNumberCommand);
-            OperatorCommand         = new RelayCommand(ProcessOperator, item => displayModel.MainDisplayText.Length > 0 && Char.IsDigit(displayModel.MainDisplayText[^1]));
+            OperatorCommand         = new RelayCommand(ProcessOperator);
             EqualSignCommand        = new RelayCommand(ProcessEqualSign);
             BackSpaceCommand        = new RelayCommand(ProcessBackspace, item => displayModel.MainDisplayText != "0");
             ResetCommand            = new RelayCommand(ProcessClear);
@@ -58,9 +58,9 @@ namespace Calculator.ViewModels
         private void ChangeBase(object parameter) {
             string baseString = parameter as string;
 
-            _currentBase = baseString;
+            displayModel.MainDisplayText = BaseConverter.ConvertBase(displayModel.MainDisplayText, int.Parse(_currentBase), int.Parse(baseString));
 
-            UpdateDisplayForCurrentBase();
+            _currentBase = baseString;
         }
 
         private bool CanExecuteNumberCommand(object parameter) {
@@ -70,15 +70,15 @@ namespace Calculator.ViewModels
                 return false;
             }
 
-            if (CurrentBase == "2" && (int.Parse(digit) > 1)) {
+            if (CurrentBase == "2" && !BaseConverter.BinaryDigits.Contains(digit)) {
                 return false;
             }
 
-            if (CurrentBase == "8" && (int.Parse(digit) > 7)) {
+            if (CurrentBase == "8" && !BaseConverter.OctalDigits.Contains(digit)) {
                 return false;
             }
 
-            if (CurrentBase == "10" && (int.Parse(digit) > 9)) {
+            if (CurrentBase == "10" && !BaseConverter.DecimalDigits.Contains(digit)) {
                 return false;
             }
 
@@ -88,19 +88,15 @@ namespace Calculator.ViewModels
         private void ProcessDigit(object parameter) {
             string digit = parameter as string;
 
-            if (displayModel.MainDisplayText == "0") {
-                displayModel.MainDisplayText = digit;
-            }
-            else {
-                displayModel.MainDisplayText += digit;
-            }
+            _calcService.ProcessDigit(digit);
 
             UpdateDisplayForCurrentBase();
         }
 
         private void ProcessOperator(object parameter) {
             string op = parameter as string;
-            _calcService.ProcessOperator(op);
+            _calcService.ProcessOperator(op, _currentBase);
+            UpdateDisplayForCurrentBase();
         }
 
         private void ProcessClear(object parameter) {
@@ -116,21 +112,21 @@ namespace Calculator.ViewModels
             else {
                 displayModel.MainDisplayText = displayModel.MainDisplayText.Substring(0, displayModel.MainDisplayText.Length - 1);
             }
+
+            UpdateDisplayForCurrentBase();
         }
 
         private void ProcessEqualSign(object parameter) {
-            _calcService.ProcessEqualSign();
+            _calcService.ProcessEqualSign(_currentBase);
             UpdateDisplayForCurrentBase();
         }
 
         private void UpdateDisplayForCurrentBase() {
-            if (double.TryParse(displayModel.MainDisplayText, out double value)) {
-                int currBase = int.Parse(_currentBase);
-                displayModel.HexDisplay = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 16);
-                displayModel.DecDisplay = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 10);
-                displayModel.OctDisplay = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 8);
-                displayModel.BinDisplay = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 2);
-            }
+            int currBase = int.Parse(_currentBase);
+            displayModel.HexDisplayText = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 16);
+            displayModel.DecDisplayText = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 10);
+            displayModel.OctDisplayText = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 8);
+            displayModel.BinDisplayText = BaseConverter.ConvertBase(displayModel.MainDisplayText, currBase, 2);
         }
     }
 }

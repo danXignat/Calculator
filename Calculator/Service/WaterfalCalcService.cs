@@ -36,15 +36,15 @@ namespace Calculator.Service {
             _displayModel.MainDisplayText += digit;
         }
 
-        public void ProcessOperator(string op) {
+        public void ProcessOperator(string op, string numerationBase = "10") {
             if (CalculatorEngine.SupportedOp[op].Operator == Operations.Percent) {
                 ProcessPercent(op);
             }
             else if (CalculatorEngine.isUnary(op)) {
-                ProcessUnary(op);
+                ProcessUnary(op, numerationBase);
             }
             else {
-                ProcessBinary(op);
+                ProcessBinary(op, numerationBase);
             }
         }
         public void ProcessChangeSign() {
@@ -55,8 +55,8 @@ namespace Calculator.Service {
                 _displayModel.MainDisplayText = _displayModel.MainDisplayText.Substring(1);
             }
         }
-        private void ProcessUnary(string op) {
-            string result = Utils.CalculatorEngine.Calculate(op, _displayModel.MainDisplayText);
+        private void ProcessUnary(string op, string numerationBase = "10") {
+            string result = Utils.CalculatorEngine.Calculate(op, _displayModel.MainDisplayText, null, numerationBase);
 
             if (_secondOperand == "") {
                 _secondOperand = Utils.CalculatorEngine.SupportedOp[op].DisplayFunction(_displayModel.MainDisplayText);
@@ -68,13 +68,13 @@ namespace Calculator.Service {
             _displayModel.TempDisplayText = $"{_firstOperand} {_op} {_secondOperand}";
             _displayModel.MainDisplayText = result;
         }
-        private void ProcessBinary(string op) {
+        private void ProcessBinary(string op, string numerationBase = "10") {
             if (_firstOperand == "") {
                 _firstOperand = _displayModel.MainDisplayText;
             }
 
             if (_newTerm) {
-                _firstOperand = Utils.CalculatorEngine.Calculate(_op, _firstOperand, _displayModel.MainDisplayText);
+                _firstOperand = Utils.CalculatorEngine.Calculate(_op, _firstOperand, _displayModel.MainDisplayText, numerationBase);
                 _displayModel.MainDisplayText = _firstOperand;
                 _newTerm = false;
             }
@@ -94,10 +94,10 @@ namespace Calculator.Service {
             _displayModel.TempDisplayText = $"{_firstOperand} {_op} {result}";
             _displayModel.MainDisplayText = result;
         }
-        public void ProcessEqualSign() {
+        public void ProcessEqualSign(string numerationBase = "10") {
             _secondOperand = _displayModel.MainDisplayText;
             _displayModel.TempDisplayText = $"{_firstOperand} {_op} {_secondOperand} = ";
-            _displayModel.MainDisplayText = Utils.CalculatorEngine.Calculate(_op, _firstOperand, _secondOperand);
+            _displayModel.MainDisplayText = Utils.CalculatorEngine.Calculate(_op, _firstOperand, _secondOperand, numerationBase);
 
             action = () => {
                 _displayModel.TempDisplayText = "";

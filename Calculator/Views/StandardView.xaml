@@ -18,9 +18,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Memory buttons with 5 columns in the first row -->
+        <!-- Memory buttons with 6 columns in the first row -->
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -29,18 +30,128 @@
             </Grid.ColumnDefinitions>
 
             <!-- Memory buttons -->
-            <Button Content="MC" Grid.Column="0" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
+            <Button x:Name="MemoryClearButton" Content="MC" Grid.Column="0" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
                     Command="{Binding MemoryClearCommand}" IsEnabled="{Binding HasMemoryValue}"/>
-            <Button Content="MR" Grid.Column="1" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
+            <Button x:Name="MemoryRecallButton" Content="MR" Grid.Column="1" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
                     Command="{Binding MemoryRecallCommand}" IsEnabled="{Binding HasMemoryValue}"/>
-            <Button Content="M+" Grid.Column="2" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
+            <Button x:Name="MemoryAddButton" Content="M+" Grid.Column="2" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
                     Command="{Binding MemoryAddCommand}"/>
-            <Button Content="M-" Grid.Column="3" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
+            <Button x:Name="MemorySubtractButton" Content="M-" Grid.Column="3" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
                     Command="{Binding MemorySubtractCommand}"/>
-            <Button Content="MS" Grid.Column="4" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
+            <Button x:Name="MemoryStoreButton" Content="MS" Grid.Column="4" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
                     Command="{Binding MemoryStoreCommand}"/>
+            <Button x:Name="MemoryButton" Content="M" Grid.Column="5" Margin="2" Style="{StaticResource MemoryButtonDark}" Height="30" 
+                    Command="{Binding MemoryDropdownCommand}" Click="MemoryButton_Click">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="M" FontWeight="SemiBold"/>
+                            <Path Data="M0,0 L0,8 L4,4 Z" Fill="{StaticResource ForegroundBrush}" Margin="5,0,0,0" 
+                                  RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center">
+                                <Path.RenderTransform>
+                                    <RotateTransform Angle="{Binding IsMemoryDropdownOpen, Converter={StaticResource BoolToAngleConverter}}"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+
+            <!-- Memory Dropdown -->
+            <Popup x:Name="MemoryPopup" Grid.Column="5" 
+                  IsOpen="{Binding IsMemoryDropdownOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  PlacementTarget="{Binding ElementName=MemoryButton}" 
+                  Placement="Bottom" 
+                  StaysOpen="False"
+                  Width="280"
+                  MaxHeight="350"
+                  AllowsTransparency="True">
+                <Border Background="{StaticResource PopupBackgroundBrush}" 
+                        BorderBrush="{StaticResource BorderBrush}" 
+                        BorderThickness="1" 
+                        CornerRadius="6"
+                        Padding="8">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" Direction="270" Color="Black" Opacity="0.6" BlurRadius="10"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Memory" 
+                                  Foreground="{StaticResource ForegroundBrush}" 
+                                  FontWeight="SemiBold"
+                                  Margin="5,0,0,8"/>
+                        <Separator Background="{StaticResource BorderBrush}" Margin="0,0,0,8"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="280">
+                            <ItemsControl ItemsSource="{Binding MemoryItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,4" Style="{StaticResource MemoryItemStyle}" Height="36">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Memory Value -->
+                                            <TextBlock Grid.Column="0" 
+                                                      Text="{Binding Value, StringFormat='{}{0:N2}'}" 
+                                                      FontSize="15" 
+                                                      FontWeight="Medium"
+                                                      Foreground="{StaticResource ForegroundBrush}"
+                                                      Cursor="Hand"
+                                                      Margin="8,0,0,0"
+                                                      VerticalAlignment="Center">
+                                                <TextBlock.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick" 
+                                                                 Command="{Binding DataContext.MemoryItemRecallCommand, 
+                                                                          RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                                                 CommandParameter="{Binding}"/>
+                                                </TextBlock.InputBindings>
+                                            </TextBlock>
+
+                                            <!-- M+ Button -->
+                                            <Button Grid.Column="1" 
+                                                   Content="M+" 
+                                                   Style="{StaticResource MemoryItemButtonStyle}"
+                                                   Command="{Binding DataContext.MemoryItemAddCommand, 
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                   CommandParameter="{Binding}"
+                                                   Foreground="{StaticResource AccentBrush}"
+                                                   FontWeight="SemiBold"
+                                                   ToolTip="Add current value to this memory item"/>
+
+                                            <!-- M- Button -->
+                                            <Button Grid.Column="2" 
+                                                   Content="M-" 
+                                                   Style="{StaticResource MemoryItemButtonStyle}"
+                                                   Command="{Binding DataContext.MemoryItemSubtractCommand, 
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                   CommandParameter="{Binding}"
+                                                   Foreground="{StaticResource AccentBrush}"
+                                                   FontWeight="SemiBold"
+                                                   ToolTip="Subtract current value from this memory item"/>
+
+                                            <!-- MC Button -->
+                                            <Button Grid.Column="3" 
+                                                   Content="×" 
+                                                   Style="{StaticResource MemoryItemButtonStyle}"
+                                                   Command="{Binding DataContext.MemoryItemRemoveCommand, 
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                   CommandParameter="{Binding}"
+                                                   Foreground="#E74C3C"
+                                                   FontWeight="Bold"
+                                                   ToolTip="Remove this memory item"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Popup>
         </Grid>
 
+        <!-- Rest of the calculator buttons remain unchanged -->
         <!-- Clear row -->
         <Button Content="%" Grid.Row="1" Grid.Column="0" Margin="2" Style="{StaticResource OperationButtonDark}" 
                 Command="{Binding OperatorCommand}" CommandParameter="%"/>
