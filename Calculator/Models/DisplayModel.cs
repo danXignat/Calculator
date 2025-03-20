@@ -55,8 +55,7 @@ namespace Calculator.Models {
             }
         }
 
-        public string OctDisplayText
-        {
+        public string OctDisplayText {
             get => _octDisplay;
             set {
                 if (_octDisplay != value) {
@@ -66,8 +65,7 @@ namespace Calculator.Models {
             }
         }
 
-        public string BinDisplayText
-        {
+        public string BinDisplayText {
             get => _binDisplay;
             set {
                 if (_binDisplay != value) {

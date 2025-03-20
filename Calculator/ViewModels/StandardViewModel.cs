@@ -7,10 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace Calculator.ViewModels
-{
-    public class StandardViewModel : IBaseViewModel, INotifyPropertyChanged
-    {
+namespace Calculator.ViewModels {
+    public class StandardViewModel : IBaseViewModel, INotifyPropertyChanged {
         private DisplayModel displayModel;
         private WaterfallCalcService _calcService;
         private MemoryCalcService _memoryService;
@@ -42,13 +40,10 @@ namespace Calculator.ViewModels
         public ICommand MemoryItemRemoveCommand { get; }
         public ICommand MemoryItemRecallCommand { get; }
 
-        public bool IsMemoryDropdownOpen
-        {
+        public bool IsMemoryDropdownOpen {
             get => _isMemoryDropdownOpen;
-            set
-            {
-                if (_isMemoryDropdownOpen != value)
-                {
+            set {
+                if (_isMemoryDropdownOpen != value) {
                     _isMemoryDropdownOpen = value;
                     OnPropertyChanged(nameof(IsMemoryDropdownOpen));
                 }
@@ -59,8 +54,7 @@ namespace Calculator.ViewModels
 
         public bool HasMemoryValue => _memoryService.HasMemoryValue;
 
-        public StandardViewModel(DisplayModel otherDisplayModel)
-        {
+        public StandardViewModel(DisplayModel otherDisplayModel) {
             displayModel = otherDisplayModel ?? throw new ArgumentNullException(nameof(otherDisplayModel));
             _calcService = new WaterfallCalcService(displayModel);
             _memoryService = new MemoryCalcService(displayModel);
@@ -87,71 +81,57 @@ namespace Calculator.ViewModels
             MemoryItemRecallCommand = new RelayCommand(ProcessMemoryItemRecall);
         }
 
-        public void Initialize()
-        {
+        public void Initialize() {
             ProcessClear(null);
         }
 
-        protected void OnPropertyChanged(string propertyName)
-        {
+        protected void OnPropertyChanged(string propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ProcessDigit(object? parameter)
-        {
+        private void ProcessDigit(object? parameter) {
             string digit = parameter as string ?? throw new ArgumentNullException(nameof(parameter));
             _calcService.ProcessDigit(digit);
         }
 
-        private void ProcessOperator(object? parameter)
-        {
+        private void ProcessOperator(object? parameter) {
             string op = parameter as string ?? throw new ArgumentNullException(nameof(parameter));
             _calcService.ProcessOperator(op);
         }
 
-        private void ProcessChangeSign(object? parameter)
-        {
+        private void ProcessChangeSign(object? parameter) {
             _calcService.ProcessChangeSign();
         }
 
-        private void ProcessPoint(object? parameter)
-        {
-            if (!displayModel.MainDisplayText.Contains("."))
-            {
+        private void ProcessPoint(object? parameter) {
+            if (!displayModel.MainDisplayText.Contains(".")) {
                 displayModel.MainDisplayText += ".";
             }
         }
 
-        private void ProcessClear(object? parameter)
-        {
+        private void ProcessClear(object? parameter) {
             displayModel.Reset();
             _calcService.Reset();
         }
 
-        private void ProcessBackspace(object? parameter)
-        {
-            if (displayModel.MainDisplayText.Length == 1 || (displayModel.MainDisplayText.Length == 2 && displayModel.MainDisplayText[0] == '-'))
-            {
+        private void ProcessBackspace(object? parameter) {
+            if (displayModel.MainDisplayText.Length == 1 || (displayModel.MainDisplayText.Length == 2 && displayModel.MainDisplayText[0] == '-')) {
                 displayModel.MainDisplayText = "0";
             }
-            else
-            {
+            else {
                 displayModel.MainDisplayText = displayModel.MainDisplayText.Substring(0, displayModel.MainDisplayText.Length - 1);
             }
         }
 
-        private void ProcessEqualSign(object? parameter)
-        {
+        private void ProcessEqualSign(object? parameter) {
             _calcService.ProcessEqualSign();
         }
 
-        private void ProcessMemoryItemRemove(object? parameter)
-        {
+        private void ProcessMemoryItemRemove(object? parameter) {
             _memoryService.MemoryItemRemove(parameter as MemoryItem ?? throw new ArgumentNullException(nameof(parameter)));
         }
 
-        private void ProcessMemoryItemRecall(object? parameter)
-        {
+        private void ProcessMemoryItemRecall(object? parameter) {
             _memoryService.MemoryItemRecall(parameter as MemoryItem ?? throw new ArgumentNullException(nameof(parameter)));
             IsMemoryDropdownOpen = false;
         }

@@ -12,10 +12,8 @@ using Calculator.Models;
 using System.Diagnostics;
 using Calculator.Services;
 
-namespace Calculator.ViewModels
-{
-    public class MainViewModel : INotifyPropertyChanged
-    {
+namespace Calculator.ViewModels {
+    public class MainViewModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private DisplayModel _displayModel;
@@ -24,11 +22,9 @@ namespace Calculator.ViewModels
         private IBaseViewModel _currentViewModel;
         private DigitGroupingService _digitGroupingService;
 
-        public IBaseViewModel CurrentViewModel
-        {
+        public IBaseViewModel CurrentViewModel {
             get => _currentViewModel;
-            set
-            {
+            set {
                 _currentViewModel = value;
                 OnPropertyChanged(nameof(CurrentViewModel));
 
@@ -84,13 +80,10 @@ namespace Calculator.ViewModels
         public ICommand? MemoryItemRecallCommand => (CurrentViewModel as StandardViewModel)?.MemoryItemRecallCommand;
 
         //--------------------------------------------------------------------------------Memory properties
-        public bool IsMemoryDropdownOpen
-        {
+        public bool IsMemoryDropdownOpen {
             get => (CurrentViewModel as StandardViewModel)?.IsMemoryDropdownOpen ?? false;
-            set
-            {
-                if (CurrentViewModel is StandardViewModel standardVM)
-                {
+            set {
+                if (CurrentViewModel is StandardViewModel standardVM) {
                     standardVM.IsMemoryDropdownOpen = value;
                     OnPropertyChanged(nameof(IsMemoryDropdownOpen));
                 }
@@ -117,44 +110,37 @@ namespace Calculator.ViewModels
         public ICommand ToggleDigitGroupingCommand { get; }
 
         //------------------------------------------------------------------------Digit grouping
-        public string MainDisplayText
-        {
+        public string MainDisplayText {
             get => _digitGroupingService.GetFormattedNumber(_displayModel.MainDisplayText);
             set => _displayModel.MainDisplayText = value;
         }
 
-        public string TempDisplayText
-        {
+        public string TempDisplayText {
             get => _displayModel.TempDisplayText;
             set => _displayModel.TempDisplayText = value;
         }
-        public string HexDisplayText
-        {
+        public string HexDisplayText {
             get => _displayModel.HexDisplayText;
             set => _displayModel.HexDisplayText = value;
         }
-        public string DecDisplayText
-        {
+        public string DecDisplayText {
             get => _displayModel.DecDisplayText;
             set => _displayModel.DecDisplayText = value;
         }
-        public string OctDisplayText
-        {
+        public string OctDisplayText {
             get => _displayModel.OctDisplayText;
             set => _displayModel.OctDisplayText = value;
         }
-        public string BinDisplayText
-        {
+        public string BinDisplayText {
             get => _displayModel.BinDisplayText;
             set => _displayModel.BinDisplayText = value;
         }
 
-        public MainViewModel()
-        {
+        public MainViewModel() {
             _displayModel = new DisplayModel();
-            _displayModel.PropertyChanged += (sender, args) => {
-                if (args.PropertyName != null)
-                {
+            _displayModel.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != null) {
                     OnPropertyChanged(args.PropertyName);
                 }
             };
@@ -163,8 +149,18 @@ namespace Calculator.ViewModels
             _programmerViewModel = new ProgrammerViewModel(_displayModel);
             _digitGroupingService = new DigitGroupingService();
 
-            _currentViewModel = _standardViewModel;
-            CurrentViewModel = _standardViewModel;
+            string lastMode = Properties.Settings.Default.LastUsedMode;
+
+            if (lastMode == "Programmer") {
+                _currentViewModel = _programmerViewModel;
+                CurrentViewModel = _programmerViewModel;
+                _displayModel.PropertyChanged += _programmerViewModel.BaseDisplayModel_PropertyChanged;
+            }
+            else {
+                _currentViewModel = _standardViewModel;
+                CurrentViewModel = _standardViewModel;
+            }
+
             ModeCommand = new RelayCommand(ChangeMode);
 
             CutCommand = new RelayCommand(_ => ExecuteCut());
@@ -174,63 +170,58 @@ namespace Calculator.ViewModels
             ToggleDigitGroupingCommand = new RelayCommand(_ => ExecuteToggleDigitGrouping());
         }
 
-        private void ChangeMode(object? parameter)
-        {
+        private void ChangeMode(object? parameter) {
             string? mode = parameter as string;
 
-            switch (mode)
-            {
+            switch (mode) {
                 case "Standard":
                     CurrentViewModel = _standardViewModel;
                     _displayModel.PropertyChanged -= _programmerViewModel.BaseDisplayModel_PropertyChanged;
+
+                    Properties.Settings.Default.LastUsedMode = "Standard";
+                    Properties.Settings.Default.Save();
                     break;
                 case "Programmer":
                     CurrentViewModel = _programmerViewModel;
                     _displayModel.PropertyChanged += _programmerViewModel.BaseDisplayModel_PropertyChanged;
+
+                    Properties.Settings.Default.LastUsedMode = "Programmer";
+                    Properties.Settings.Default.Save();
                     break;
             }
 
             CurrentViewModel.Initialize();
         }
 
-        protected void OnPropertyChanged(string? propertyName)
-        {
+        protected void OnPropertyChanged(string? propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName ?? string.Empty));
         }
 
-        private void ExecuteCut()
-        {
+        private void ExecuteCut() {
             Clipboard.SetText(MainDisplayText);
             _displayModel.MainDisplayText = "0";
         }
 
-        private void ExecuteCopy()
-        {
+        private void ExecuteCopy() {
             Clipboard.SetText(MainDisplayText);
         }
 
-        private void ExecutePaste()
-        {
-            try
-            {
-                if (Clipboard.ContainsText())
-                {
+        private void ExecutePaste() {
+            try {
+                if (Clipboard.ContainsText()) {
                     string clipboardText = Clipboard.GetText();
 
-                    if (double.TryParse(clipboardText, out double result))
-                    {
+                    if (double.TryParse(clipboardText, out double result)) {
                         _displayModel.MainDisplayText = clipboardText;
                     }
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 Debug.WriteLine($"Clipboard error: {ex.Message}");
             }
         }
 
-        private void ExecuteToggleDigitGrouping()
-        {
+        private void ExecuteToggleDigitGrouping() {
             _digitGroupingService.IsDigitGroupingEnabled = !_digitGroupingService.IsDigitGroupingEnabled;
             OnPropertyChanged(nameof(MainDisplayText));
         }

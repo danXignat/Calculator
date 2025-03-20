@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Calculator.ViewModels
-{
+namespace Calculator.ViewModels {
     public interface IBaseViewModel {
         void Initialize();
 
